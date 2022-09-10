@@ -18,6 +18,8 @@ export default class AppComponent implements AfterViewInit, OnInit {
   welcomeMessage = "Bem vindo";
   isLoading = false;
 
+  mensagemDeErro = "";
+
   apiToken = "";
   model = "text-davinci-002";
   top_p = 1;
@@ -164,14 +166,24 @@ export default class AppComponent implements AfterViewInit, OnInit {
     if (response && response.data) return response.data || {};
     return response || {};
   }
-
+  private setErrorMessage(error: string): void {
+    this.mensagemDeErro = error;
+  }
   private serviceError(error: Response | any) {
-    if (error && error.error) return throwError(error.error);
+    //console.log("error: ", error);
+    if (error && error.error && error.error.error.message) {
+      //const errMsg = error.error.error.message.toString();
+
+      //this.setErrorMessage(errMsg);
+
+      return throwError(error.error);
+    }
     return throwError(error);
   }
 
   async insertOpenaiResponse() {
     this.setStorageValues();
+    this.mensagemDeErro = "";
     return Word.run(async (context) => {
       this.isLoading = true;
       var selectedText = context.document.getSelection();
@@ -193,40 +205,51 @@ export default class AppComponent implements AfterViewInit, OnInit {
       // const paragraph = context.document.body.insertParagraph(response.choices[0].text.replace('\\n', '\n'), Word.InsertLocation.end);
       // paragraph.font.color = "blue";
       console.log("request", request);
-      this.getOpenAiResponse(request).subscribe(async (response: CompletionResponse) => {
-        console.log("response", response);
-        var colorList = [
-          "blue",
-          "red",
-          "green",
-          "orange",
-          "purple",
-          "pink",
-          "brown",
-          "black",
-          "gray",
-          "cyan",
-          "magenta",
-          "lime",
-          "teal",
-          "aqua",
-          "maroon",
-          "olive",
-          "navy",
-        ];
-        for (var i = 0; i < response.choices.length; i++) {
-          var txtSplit = this.adicionaNewLines(response.choices[i].text).split("|NL|");
-          if (txtSplit.length == 0) continue;
-          for (var j = 0; j < txtSplit.length; j++) {
-            if (txtSplit[j].trim() == "") continue;
-            var paragraph = context.document.body.insertParagraph(txtSplit[j], Word.InsertLocation.end);
-            paragraph.font.color = colorList[i % colorList.length];
-            //paragraph.font.highlightColor = complementaryColorList[i % complementaryColorList.length];
+      this.getOpenAiResponse(request)
+        .subscribe(
+          async (response: CompletionResponse) => {
+            console.log("response", response);
+            var colorList = [
+              "blue",
+              "red",
+              "green",
+              "orange",
+              "purple",
+              "pink",
+              "brown",
+              "black",
+              "gray",
+              "cyan",
+              "magenta",
+              "lime",
+              "teal",
+              "aqua",
+              "maroon",
+              "olive",
+              "navy",
+            ];
+            for (var i = 0; i < response.choices.length; i++) {
+              var txtSplit = this.adicionaNewLines(response.choices[i].text).split("|NL|");
+              if (txtSplit.length == 0) continue;
+              for (var j = 0; j < txtSplit.length; j++) {
+                if (txtSplit[j].trim() == "") continue;
+                var paragraph = context.document.body.insertParagraph(txtSplit[j], Word.InsertLocation.end);
+                paragraph.font.color = colorList[i % colorList.length];
+                //paragraph.font.highlightColor = complementaryColorList[i % complementaryColorList.length];
+              }
+            }
+            await context.sync();
+            this.isLoading = false;
+          },
+          (error) => {
+            this.isLoading = false;
+            console.log("O erro aqui é ", error);
+            if (error && error.error && error.error.message) this.setErrorMessage(error.error.message);
           }
-        }
-        await context.sync();
-        this.isLoading = false;
-      });
+        )
+        .add(() => {
+          this.isLoading = false;
+        });
     });
   }
   adicionaNewLines(texto: string): string {

@@ -20,11 +20,13 @@
     class="ms-welcome__action ms-Button ms-Button--primary ms-u-slideUpIn20"
     (click)="insertOpenaiResponse()"
   >
-    <span *ngIf="!isLoading" class="ms-Button-label">AutoCompletar ->&nbsp;&nbsp;</span>
+    <span *ngIf="!isLoading" class="ms-Button-label">Auto Completar ->&nbsp;&nbsp;</span>
     <span *ngIf="isLoading" class="ms-Button-label">Pensando...&nbsp;&nbsp;</span>
     <span *ngIf="!isLoading" class="ms-Button-icon"><i class="ms-Icon ms-Icon--ChevronRight"></i></span>
-    <span *ngIf="isLoading" class="ms-Button-icon"><i class="ms-Icon ms-Icon--HourGlass"></i></span></button
-  ><br />
+    <span *ngIf="isLoading" class="ms-Button-icon"><i class="ms-Icon ms-Icon--HourGlass"></i></span>
+  </button>
+  <span class="error">{{ mensagemDeErro }}</span>
+  <br />
   <!-- <div class="ms-Dropdown" tabindex="0">
             <label class="ms-Label">Model:</label>
             <i class="ms-Dropdown-caretDown ms-Icon ms-Icon--ChevronDown"></i>
