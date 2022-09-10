@@ -4,8 +4,8 @@ const devCerts = require("office-addin-dev-certs");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const urlDev = "https://localhost:3000/";
-const urlProd = "https://arquivosredigirbeta.z15.web.core.windows.net/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
+const urlDev = "https://localhost:3000";
+const urlProd = "https://arquivosredigirbeta.z15.web.core.windows.net"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
 
 async function getHttpsOptions() {
   const httpsOptions = await devCerts.getHttpsServerOptions();
@@ -50,7 +50,7 @@ module.exports = async (env, options) => {
           use: [
             {
               loader: "html-loader",
-              options: { minimize: false, caseSensitive: true, removeComments: false, collapseWhitespace: false },
+              options: { minimize: { caseSensitive: true } },
             },
           ],
         },
@@ -68,11 +68,13 @@ module.exports = async (env, options) => {
         filename: "taskpane.html",
         template: "./src/taskpane/taskpane.html",
         chunks: ["polyfill", "taskpane"],
+        minify: { caseSensitive: true },
       }),
       new HtmlWebpackPlugin({
         filename: "app.component.html",
         template: "./src/taskpane/app/app.component.html",
         chunks: ["polyfill", "app.component"],
+        minify: { caseSensitive: true },
       }),
       new CopyWebpackPlugin({
         patterns: [
@@ -97,6 +99,7 @@ module.exports = async (env, options) => {
         filename: "commands.html",
         template: "./src/commands/commands.html",
         chunks: ["polyfill", "commands"],
+        caseSensitive: true,
       }),
     ],
     devServer: {

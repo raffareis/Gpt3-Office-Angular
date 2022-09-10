@@ -1,16 +1,31 @@
-<header class="ms-welcome__header ms-bgColor-neutralLighter ms-u-fadeIn500" style="padding:0;background-color: #0c0c3e;"> 
-    <img width="120" height="120" src="../../../assets/120.png" alt="GPT-3 do Rafa - Imagem gerada no Midjourney com prompt criado pela GPT-3" title="GPT-3 do Rafa - Imagem gerada no Midjourney com prompt criado pela GPT-3" />
+<header
+  class="ms-welcome__header ms-bgColor-neutralLighter ms-u-fadeIn500"
+  style="padding: 0; background-color: #0c0c3e"
+>
+  <img
+    width="120"
+    height="120"
+    src="../../../assets/120.png"
+    alt="GPT-3 do Rafa - Imagem gerada no Midjourney com prompt criado pela GPT-3"
+    title="GPT-3 do Rafa - Imagem gerada no Midjourney com prompt criado pela GPT-3"
+  />
 </header>
 <main class="ms-welcome__main">
-    <h3 class="ms-font-xl ms-fontWeight-semilight ms-fontColor-neutralPrimary ms-u-slideUpIn20"> Selecione algum texto e clique em AutoCompletar</h3>
-        <button role="button" [disabled]="isLoading" class="ms-welcome__action ms-Button ms-Button--primary ms-u-slideUpIn20" (click)="insertOpenaiResponse()">
-            <span *ngIf="!isLoading" class="ms-Button-label">AutoCompletar&nbsp;&nbsp;</span>
-            <span *ngIf="isLoading" class="ms-Button-label">Pensando...&nbsp;&nbsp;</span>
-            <span *ngIf="!isLoading" class="ms-Button-icon"><i class="ms-Icon ms-Icon--ChevronRight"></i></span>
-            <span *ngIf="isLoading" class="ms-Button-icon"><i class="ms-Icon ms-Icon--HourGlass"></i></span>
-        
-        </button><br />
-        <!-- <div class="ms-Dropdown" tabindex="0">
+  <h3 class="ms-font-xl ms-fontWeight-semilight ms-fontColor-neutralPrimary ms-u-slideUpIn20">
+    Selecione algum texto e clique em AutoCompletar
+  </h3>
+  <button
+    role="button"
+    [disabled]="isLoading"
+    class="ms-welcome__action ms-Button ms-Button--primary ms-u-slideUpIn20"
+    (click)="insertOpenaiResponse()"
+  >
+    <span *ngIf="!isLoading" class="ms-Button-label">AutoCompletar ->&nbsp;&nbsp;</span>
+    <span *ngIf="isLoading" class="ms-Button-label">Pensando...&nbsp;&nbsp;</span>
+    <span *ngIf="!isLoading" class="ms-Button-icon"><i class="ms-Icon ms-Icon--ChevronRight"></i></span>
+    <span *ngIf="isLoading" class="ms-Button-icon"><i class="ms-Icon ms-Icon--HourGlass"></i></span></button
+  ><br />
+  <!-- <div class="ms-Dropdown" tabindex="0">
             <label class="ms-Label">Model:</label>
             <i class="ms-Dropdown-caretDown ms-Icon ms-Icon--ChevronDown"></i>
             <select class="ms-Dropdown-select" [(ngModel)]="model">
@@ -21,66 +36,141 @@
                 <option value="text-ada-001">Mais barato - Ada</option>
             </select>
         </div> -->
-    <div class="ms-TextField">
-        
-    <label class="ms-Label">Model:</label> 
+  <div class="ms-TextField">
+    <label class="ms-Label">Model:</label>
     <select [(ngModel)]="model" class="ms-TextField-field">
-        <option value="text-davinci-002" title="Melhor e Mais caro">Melhor - Davinci</option>
-        <!-- <option value="code-davinci-002">Melhor - CODE - Davinci</option> -->
-        <option value="text-curie-001" title="Segundo melhor, 10x mais barato">Curie</option>
-        <option value="text-babbage-001" title="Terceiro melhor, bem mais barato">Babbage</option>
-        <option value="text-ada-001" title="Mais Simples, Mais Barato, Mais Rápido">Mais barato - Ada</option>        
-
+      <option value="text-davinci-002" title="Melhor e Mais caro">Melhor - Davinci</option>
+      <!-- <option value="code-davinci-002">Melhor - CODE - Davinci</option> -->
+      <option value="text-curie-001" title="Segundo melhor, 10x mais barato">Curie</option>
+      <option value="text-babbage-001" title="Terceiro melhor, bem mais barato">Babbage</option>
+      <option value="text-ada-001" title="Mais Simples, Mais Barato, Mais Rápido">Mais barato - Ada</option>
     </select>
-    </div>
+  </div>
 
-   
-    <!-- Token : <input type="text" [value]="apiToken" (input)="apiToken = $event.target.value"><br /> -->
+  <!-- Token : <input type="text" [value]="apiToken" (input)="apiToken = $event.target.value"><br /> -->
 
-   
-    <!-- Top_p : <input type="number" [value]="top_p" (input)="top_p = $event.target.value"><br /> -->
+  <!-- Top_p : <input type="number" [value]="top_p" (input)="top_p = $event.target.value"><br /> -->
 
-    <div class="ms-TextField" title="What sampling temperature to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer. We generally recommend altering this or top_p but not both.">
-        <label class="ms-Label">Temp ("Criatividade"):  {{temperature}} </label>
-        <input class="ms-TextField-field" type="range" [value]="temperature" step=".1"  min="0" max="1" (input)="temperature = $event.target.value" placeholder="">
-    </div>
-    <div class="ms-TextField"
-        title="An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. We generally recommend altering this or temperature but not both">
-        <label class="ms-Label">Top_p ("Incerteza"): {{top_p}}</label>
-        <input class="ms-TextField-field" type="range" [value]="top_p" step=".1" min="0" max="1" (input)="top_p = $event.target.value" placeholder="">
-    </div>
-    <!-- Temperature: <input type="number" [value]="temperature" (input)="temperature = $event.target.value"><br /> -->
-    <div class="ms-TextField" title="The maximum number of tokens to generate in the completion">
-        <label class="ms-Label">Max Tokens: {{max_tokens}}</label>
-        <input class="ms-TextField-field" type="range" [value]="max_tokens" min="1" max="450" range="1" (input)="max_tokens = $event.target.value" placeholder="">
-    </div>
-    <!-- Max Tokens: <input type="number" [value]="max_tokens" (input)="max_tokens = $event.target.value"> <br /> -->
-    <div class="ms-TextField" title="How many completions to generate for each prompt.">
-        <label class="ms-Label">Respostas: {{n}}</label>
-        <input class="ms-TextField-field" type="range"  min="1" max="4" [value]="n"  (input)="n = $event.target.value" placeholder="">
-    </div>
-    
-    <!-- Responses: <input type="number" [value]="n" (input)="n = $event.target.value"><br /> -->
-    <div class="ms-TextField" title="Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.">
-        <label class="ms-Label">Frequency Penalty: {{frequency_penalty}}</label>
-        <input class="ms-TextField-field" type="range" [value]="frequency_penalty" step=".2"  min="-2" max="2" (input)="frequency_penalty = $event.target.value" placeholder="">
-    </div>
-    <!-- Frequency Penalty: <input type="range" [value]="frequency_penalty" (input)="frequency_penalty = $event.target.value"><br /> -->
-    <div class="ms-TextField" title="Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.">
-        <label class="ms-Label">Presence Penalty: {{presence_penalty}}</label>
-        <input class="ms-TextField-field" type="range" [value]="presence_penalty" step=".2" min="-2" max="2" (input)="presence_penalty = $event.target.value" placeholder="">
-    </div>
-    <!-- Presence Penalty: <input type="number" [value]="presence_penalty" (input)="presence_penalty = $event.target.value"><br /> -->
-    <div class="ms-TextField" title="Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.">
-        <label class="ms-Label">Stop words: </label>
-        <input class="ms-TextField-field" type="text" [value]="stop" (input)="stop = $event.target.value" placeholder="ex: \n,Pergunta:,The End">
-    </div>
-    <div class="ms-TextField" title="The OpenAI API uses API keys for authentication. Visit your API Keys page to retrieve the API key you'll use in your requests. (https://beta.openai.com/account/api-keys)">
-        <label class="ms-Label">Token</label>
-        <input class="ms-TextField-field" type="text" [value]="apiToken" (input)="apiToken = $event.target.value" placeholder="">
-    </div>
-    <!-- Stop: <input type="text" [value]="stop" (input)="stop = $event.target.value"> -->
-   
+  <div
+    class="ms-TextField"
+    title="What sampling temperature to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer. We generally recommend altering this or top_p but not both."
+  >
+    <label class="ms-Label">Temp ("Criatividade"): {{ temperature }} </label>
+    <input
+      class="ms-TextField-field"
+      type="range"
+      [value]="temperature"
+      step=".1"
+      min="0"
+      max="1"
+      (input)="temperature = $event.target.value"
+      placeholder=""
+    />
+  </div>
+  <div
+    class="ms-TextField"
+    title="An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. We generally recommend altering this or temperature but not both"
+  >
+    <label class="ms-Label">Top_p ("Incerteza"): {{ top_p }}</label>
+    <input
+      class="ms-TextField-field"
+      type="range"
+      [value]="top_p"
+      step=".1"
+      min="0"
+      max="1"
+      (input)="top_p = $event.target.value"
+      placeholder=""
+    />
+  </div>
+  <!-- Temperature: <input type="number" [value]="temperature" (input)="temperature = $event.target.value"><br /> -->
+  <div class="ms-TextField" title="The maximum number of tokens to generate in the completion">
+    <label class="ms-Label">Max Tokens: {{ max_tokens }}</label>
+    <input
+      class="ms-TextField-field"
+      type="range"
+      [value]="max_tokens"
+      min="1"
+      max="450"
+      range="1"
+      (input)="max_tokens = $event.target.value"
+      placeholder=""
+    />
+  </div>
+  <!-- Max Tokens: <input type="number" [value]="max_tokens" (input)="max_tokens = $event.target.value"> <br /> -->
+  <div class="ms-TextField" title="How many completions to generate for each prompt.">
+    <label class="ms-Label">Respostas: {{ n }}</label>
+    <input
+      class="ms-TextField-field"
+      type="range"
+      min="1"
+      max="4"
+      [value]="n"
+      (input)="n = $event.target.value"
+      placeholder=""
+    />
+  </div>
 
+  <!-- Responses: <input type="number" [value]="n" (input)="n = $event.target.value"><br /> -->
+  <div
+    class="ms-TextField"
+    title="Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim."
+  >
+    <label class="ms-Label">Frequency Penalty: {{ frequency_penalty }}</label>
+    <input
+      class="ms-TextField-field"
+      type="range"
+      [value]="frequency_penalty"
+      step=".2"
+      min="-2"
+      max="2"
+      (input)="frequency_penalty = $event.target.value"
+      placeholder=""
+    />
+  </div>
+  <!-- Frequency Penalty: <input type="range" [value]="frequency_penalty" (input)="frequency_penalty = $event.target.value"><br /> -->
+  <div
+    class="ms-TextField"
+    title="Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics."
+  >
+    <label class="ms-Label">Presence Penalty: {{ presence_penalty }}</label>
+    <input
+      class="ms-TextField-field"
+      type="range"
+      [value]="presence_penalty"
+      step=".2"
+      min="-2"
+      max="2"
+      (input)="presence_penalty = $event.target.value"
+      placeholder=""
+    />
+  </div>
+  <!-- Presence Penalty: <input type="number" [value]="presence_penalty" (input)="presence_penalty = $event.target.value"><br /> -->
+  <div
+    class="ms-TextField"
+    title="Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence."
+  >
+    <label class="ms-Label">Stop words: </label>
+    <input
+      class="ms-TextField-field"
+      type="text"
+      [value]="stop"
+      (input)="stop = $event.target.value"
+      placeholder="ex: \n,Pergunta:,The End"
+    />
+  </div>
+  <div
+    class="ms-TextField"
+    title="The OpenAI API uses API keys for authentication. Visit your API Keys page to retrieve the API key you'll use in your requests. (https://beta.openai.com/account/api-keys)"
+  >
+    <label class="ms-Label">Token</label>
+    <input
+      class="ms-TextField-field"
+      type="text"
+      [value]="apiToken"
+      (input)="apiToken = $event.target.value"
+      placeholder=""
+    />
+  </div>
+  <!-- Stop: <input type="text" [value]="stop" (input)="stop = $event.target.value"> -->
 </main>
-

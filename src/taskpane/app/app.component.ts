@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
-import { Component, Inject, AfterViewInit } from "@angular/core";
+import { Component, Inject, AfterViewInit, OnInit } from "@angular/core";
 import { CompletionRequest, CompletionResponse } from "./Models/openai.models";
 import { HttpClient, HttpResponse, HttpParams, HttpHeaders, HttpXhrBackend } from "@angular/common/http";
 import { catchError, ignoreElements, map, Observable, throwError } from "rxjs";
@@ -14,7 +14,7 @@ import { CommonModule } from "@angular/common";
   selector: "app-home",
   templateUrl: "./app.component.html",
 })
-export default class AppComponent implements AfterViewInit {
+export default class AppComponent implements AfterViewInit, OnInit {
   welcomeMessage = "Bem vindo";
   isLoading = false;
 
@@ -34,6 +34,55 @@ export default class AppComponent implements AfterViewInit {
         build: () => new XMLHttpRequest(),
       })
     );
+  }
+  ngOnInit(): void {
+    this.getStorageValues();
+  }
+
+  private setStorageValues() {
+    localStorage.setItem("apiToken", this.apiToken);
+    localStorage.setItem("n", this.n.toString());
+    localStorage.setItem("max_tokens", this.max_tokens.toString());
+    localStorage.setItem("top_p", this.top_p.toString());
+    localStorage.setItem("temperature", this.temperature.toString());
+    localStorage.setItem("frequency_penalty", this.frequency_penalty.toString());
+    localStorage.setItem("presence_penalty", this.presence_penalty.toString());
+    localStorage.setItem("model", this.model);
+  }
+
+  private getStorageValues() {
+    const storageApiKey = localStorage.getItem("apiToken");
+    if (storageApiKey) {
+      this.apiToken = storageApiKey;
+    }
+    const storageN = localStorage.getItem("n");
+    if (storageN) {
+      this.n = Number(storageN);
+    }
+    const storageMaxTokens = localStorage.getItem("max_tokens");
+    if (storageMaxTokens) {
+      this.max_tokens = Number(storageMaxTokens);
+    }
+    const storageTopP = localStorage.getItem("top_p");
+    if (storageTopP) {
+      this.top_p = Number(storageTopP);
+    }
+    const storageTemperature = localStorage.getItem("temperature");
+    if (storageTemperature) {
+      this.temperature = Number(storageTemperature);
+    }
+    const storageFrequencyPenalty = localStorage.getItem("frequency_penalty");
+    if (storageFrequencyPenalty) {
+      this.frequency_penalty = Number(storageFrequencyPenalty);
+    }
+    const storagePresencePenalty = localStorage.getItem("presence_penalty");
+    if (storagePresencePenalty) {
+      this.presence_penalty = Number(storagePresencePenalty);
+    }
+    const storageModel = localStorage.getItem("model");
+    if (storageModel) {
+      this.model = storageModel;
+    }
   }
 
   ngAfterViewInit() {
@@ -122,6 +171,7 @@ export default class AppComponent implements AfterViewInit {
   }
 
   async insertOpenaiResponse() {
+    this.setStorageValues();
     return Word.run(async (context) => {
       this.isLoading = true;
       var selectedText = context.document.getSelection();
