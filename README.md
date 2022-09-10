@@ -9,9 +9,11 @@ Deve ser informado uma apiKey da OpenAI (https://beta.openai.com/account/api-key
 
 para iniciar, basta rodar
 
-`npm install`
+```
+> npm install
 
-`npm start`
+> npm start
+````
 
 
 Para publicar:
