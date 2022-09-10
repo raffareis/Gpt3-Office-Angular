@@ -21,6 +21,7 @@ export default class AppComponent implements AfterViewInit, OnInit {
   mensagemDeErro = "";
 
   apiToken = "";
+  suffix = "";
   model = "text-davinci-002";
   top_p = 1;
   max_tokens = 350;
@@ -201,6 +202,7 @@ export default class AppComponent implements AfterViewInit, OnInit {
         frequency_penalty: +this.frequency_penalty,
         presence_penalty: +this.presence_penalty,
         stop: this.stop.length == 0 ? null : this.stop.split(","),
+        suffix: this.suffix.length == 0 ? null : this.suffix,
       };
       // const paragraph = context.document.body.insertParagraph(response.choices[0].text.replace('\\n', '\n'), Word.InsertLocation.end);
       // paragraph.font.color = "blue";
