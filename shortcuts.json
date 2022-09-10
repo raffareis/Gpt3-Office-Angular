@@ -1,0 +1,17 @@
+{
+    "actions": [
+        {
+            "id": "AUTOCOMPLETEGPT",
+            "type": "ExecuteFunction",
+            "name": "AutoCompletar com GPT3"
+        }
+    ],
+    "shortcuts": [
+        {
+            "action": "AUTOCOMPLETEGPT",
+            "key": {
+                "default": "Ctrl+."
+            }
+        }
+    ]
+}

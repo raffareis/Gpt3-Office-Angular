@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
+  <Id>ac63b05b-6a3c-4a92-8a5e-e75f0b0a7e3f</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Rafa</ProviderName>
+  <DefaultLocale>pt-BR</DefaultLocale>
+  <DisplayName DefaultValue="Gpt3"/>
+  <Description DefaultValue="Gpt-3 powered by Rafa."/>
+  <IconUrl DefaultValue="https://arquivosredigirbeta.z15.web.core.windows.net/assets/favicon-32x32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://arquivosredigirbeta.z15.web.core.windows.net/assets/favicon-96x96.png"/>
+  <SupportUrl DefaultValue="https://www.contoso.com/help"/>
+  <AppDomains>
+    <AppDomain>https://arquivosredigirbeta.z15.web.core.windows.net</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Document"/>
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://arquivosredigirbeta.z15.web.core.windows.net/taskpane.html"/>
+  </DefaultSettings>
+  <Permissions>ReadWriteDocument</Permissions>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Document">
+        <DesktopFormFactor>
+          <GetStarted>
+            <Title resid="GetStarted.Title"/>
+            <Description resid="GetStarted.Description"/>
+            <LearnMoreUrl resid="GetStarted.LearnMoreUrl"/>
+          </GetStarted>
+          <FunctionFile resid="Commands.Url"/>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="CommandsGroup">
+                <Label resid="CommandsGroup.Label"/>
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16"/>
+                  <bt:Image size="32" resid="Icon.32x32"/>
+                  <bt:Image size="80" resid="Icon.80x80"/>
+                </Icon>
+                <Control xsi:type="Button" id="TaskpaneButton">
+                  <Label resid="TaskpaneButton.Label"/>
+                  <Supertip>
+                    <Title resid="TaskpaneButton.Label"/>
+                    <Description resid="TaskpaneButton.Tooltip"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16"/>
+                    <bt:Image size="32" resid="Icon.32x32"/>
+                    <bt:Image size="80" resid="Icon.80x80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url"/>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="https://arquivosredigirbeta.z15.web.core.windows.net/assets/favicon-16x16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://arquivosredigirbeta.z15.web.core.windows.net/assets/favicon-32x32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://arquivosredigirbeta.z15.web.core.windows.net/assets/80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://arquivosredigirbeta.z15.web.core.windows.net/commands.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://arquivosredigirbeta.z15.web.core.windows.net/taskpane.html"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="GetStarted.Title" DefaultValue="Clique aqui para configurar o GPT3!"/>
+        <bt:String id="CommandsGroup.Label" DefaultValue="GPT-3"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Abrir GPT-3"/>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="GetStarted.Description" DefaultValue="GPT-3 instalado com sucesso! Clique na guia 'GPT-3' pra começar!"/>
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Clique para abrir as configurações do GPT-3"/>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>   
+</OfficeApp>
