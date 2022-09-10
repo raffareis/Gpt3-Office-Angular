@@ -1,4 +1,7 @@
 # Gpt3-Office-Angular
+### Desenvolvido por: [Rafael Reis](https://github.com/raffareis/)
+
+
 
 Addin para Word, que consome a GPT-3 para gerar textos.
 
@@ -18,3 +21,5 @@ https://docs.microsoft.com/en-us/office/dev/add-ins/publish/publish-add-in-vs-co
 Para instalar no Word:
 
 https://docs.microsoft.com/en-us/office/dev/add-ins/testing/create-a-network-shared-folder-catalog-for-task-pane-and-content-add-ins
+
+
