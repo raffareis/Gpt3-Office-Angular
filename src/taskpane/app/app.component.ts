@@ -188,8 +188,9 @@ export default class AppComponent implements AfterViewInit, OnInit {
     return Word.run(async (context) => {
       this.isLoading = true;
       var selectedText = context.document.getSelection();
-      selectedText.load("text");
+      selectedText.load(["text", "font/color"]);
       await context.sync();
+      var originalColor = selectedText.font.color;
       var text = selectedText.text;
 
       var request: CompletionRequest = {
@@ -239,6 +240,10 @@ export default class AppComponent implements AfterViewInit, OnInit {
                 paragraph.font.color = colorList[i % colorList.length];
                 //paragraph.font.highlightColor = complementaryColorList[i % complementaryColorList.length];
               }
+            }
+            if (this.suffix.length > 0) {
+              var lastParagraph = context.document.body.insertParagraph(this.suffix, Word.InsertLocation.end);
+              lastParagraph.font.color = originalColor;
             }
             await context.sync();
             this.isLoading = false;
