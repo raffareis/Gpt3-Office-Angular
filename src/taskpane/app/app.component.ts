@@ -22,7 +22,7 @@ export default class AppComponent implements AfterViewInit, OnInit {
 
   apiToken = "";
   suffix = "";
-  model = "text-davinci-002";
+  model = "text-davinci-003";
   top_p = 1;
   max_tokens = 350;
   temperature = 1;
